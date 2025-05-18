@@ -1,0 +1,28 @@
+﻿@{
+    ViewData["Title"] = "_Layout";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Blog Home - Start Bootstrap Template</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="~/startbootstrap-blog-home-gh-pages/assets/favicon.ico" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="~/startbootstrap-blog-home-gh-pages/css/styles.css" rel="stylesheet" />
+</head>
+<body>
+
+    @RenderBody()  <!-- Sayfa içeriği buraya gelecek -->
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/startbootstrap-blog-home-gh-pages/template/js/scripts.js"></script>
+
+    @RenderSection("Scripts", required: false)  <!-- Burayı ekledik -->
+
+</body>
+</html>

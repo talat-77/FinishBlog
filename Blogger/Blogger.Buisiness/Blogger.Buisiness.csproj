@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="CQRS\Categories\" />
+    <Folder Include="CQRS\Comments\" />
+    <Folder Include="CQRS\Users\" />
+    <Folder Include="CQRS\ThemePreferences\" />
+    <Folder Include="CQRS\Tags\" />
+    <Folder Include="CQRS\PostTags\" />
+    <Folder Include="CQRS\Posts\" />
+    <Folder Include="DTO\" />
+  </ItemGroup>
+
+</Project>
