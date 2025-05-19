@@ -1,7 +1,7 @@
-﻿using Blog.DataAccess.Context;
-using Blog.DataAccess.Repository.Abstract;
-using Blog.DataAccess.Repository.Concrete;
-using Blog.DataAccess.UnitOfWork;
+﻿using Blog.DataAccess.Abstraction;
+using Blog.DataAccess.Context;
+using Blog.DataAccess.EntityFrameWork;
+using Blog.DataAccess.Repository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -17,8 +17,13 @@ namespace Blog.DataAccess.Extensions
         public static void AddDataAccesService(this IServiceCollection service)
         {
             service.AddDbContext<BlogDbContext>(options => options.UseSqlServer(Configurations.DbConfiguration.GetConnectionString));
-            service.AddScoped<IUnitOfWork, UnitOfWork.UnitOfWork>();
-            service.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+
+            service.AddScoped(typeof(IGenericDal<>), typeof(GenericRepository<>));
+            service.AddScoped<IPostDal,EFPostDal>();
+            service.AddScoped<ICommentDal,EFCommentDal>();
+            service.AddScoped<IUserDal,EFUserDal>();
+           
+
         }
     }
 }

@@ -7,18 +7,20 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="CQRS\**" />
+    <Compile Remove="DTO\**" />
+    <EmbeddedResource Remove="CQRS\**" />
+    <EmbeddedResource Remove="DTO\**" />
+    <None Remove="CQRS\**" />
+    <None Remove="DTO\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.5" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="CQRS\Categories\" />
-    <Folder Include="CQRS\Comments\" />
-    <Folder Include="CQRS\Users\" />
-    <Folder Include="CQRS\ThemePreferences\" />
-    <Folder Include="CQRS\Tags\" />
-    <Folder Include="CQRS\PostTags\" />
-    <Folder Include="CQRS\Posts\" />
-    <Folder Include="DTO\" />
+    <ProjectReference Include="..\Blog.DataAccess\Blog.DataAccess.csproj" />
   </ItemGroup>
 
 </Project>

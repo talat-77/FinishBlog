@@ -1,22 +1,17 @@
-﻿using Blog.Entity.BlogEntities;
+﻿using Blog.Entity;
+using Blog.Entity.BlogEntities;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Emit;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
 
 namespace Blog.DataAccess.Context
 {
-    public class BlogDbContext:DbContext
+    public class BlogDbContext : IdentityDbContext<ApplicationUser, IdentityRole<Guid>, Guid>
     {
         public BlogDbContext(DbContextOptions<BlogDbContext> options) : base(options)
         {
         }
-
-       
 
         public DbSet<Category> Categories { get; set; }
         public DbSet<Comment> Comments { get; set; }
@@ -24,7 +19,6 @@ namespace Blog.DataAccess.Context
         public DbSet<PostTag> PostTags { get; set; }
         public DbSet<Tag> Tags { get; set; }
         public DbSet<ThemePreference> ThemePreferences { get; set; }
-        public DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -34,19 +28,19 @@ namespace Blog.DataAccess.Context
             modelBuilder.Entity<PostTag>()
                 .HasKey(pt => new { pt.PostId, pt.TagId });
 
-            // User → Posts
-            modelBuilder.Entity<User>()
+            // ApplicationUser → Posts
+            modelBuilder.Entity<ApplicationUser>()
                 .HasMany(u => u.Posts)
                 .WithOne(p => p.User)
                 .HasForeignKey(p => p.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            // ⚠️ Fix: User → Comments → Restrict (önceden SetNull idi, hata veriyordu)
-            modelBuilder.Entity<User>()
+            // ApplicationUser → Comments
+            modelBuilder.Entity<ApplicationUser>()
                 .HasMany(u => u.Comments)
                 .WithOne(c => c.User)
                 .HasForeignKey(c => c.UserId)
-                .OnDelete(DeleteBehavior.Restrict); // 👈 bu satır değiştirildi
+                .OnDelete(DeleteBehavior.Restrict);
 
             // Post → Comments
             modelBuilder.Entity<Post>()
@@ -62,13 +56,12 @@ namespace Blog.DataAccess.Context
                 .HasForeignKey(p => p.CategoryId)
                 .OnDelete(DeleteBehavior.SetNull);
 
-            // ThemePreference → User (bire bir)
+            // ThemePreference → ApplicationUser (1-1)
             modelBuilder.Entity<ThemePreference>()
                 .HasOne(tp => tp.User)
                 .WithMany()
                 .HasForeignKey(tp => tp.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
         }
-
     }
 }

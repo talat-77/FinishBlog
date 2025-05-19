@@ -10,7 +10,7 @@ namespace Blog.Entity.BlogEntities
     {
         public string ThemeName { get; set; }
 
-        public int UserId { get; set; }
-        public User User { get; set; }
+        public Guid UserId { get; set; }
+        public ApplicationUser User { get; set; }
     }
 }

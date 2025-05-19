@@ -13,5 +13,6 @@ namespace FinishBlog.Models
 
         // Resim dosyası için
         public IFormFile ImageFile { get; set; }
+        public Guid? CategoryId { get; set; }
     }
 }

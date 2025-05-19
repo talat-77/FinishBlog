@@ -14,11 +14,11 @@ namespace Blog.Entity.BlogEntities
         public bool IsPublished { get; set; } = false;
         public bool AllowComments { get; set; } = true;
         public bool IsDeleted { get; set; } = false;
+        public string  ImageUrl { get; set; }
+        public Guid UserId { get; set; }
+        public ApplicationUser User { get; set; }
 
-        public int UserId { get; set; }
-        public User User { get; set; }
-
-        public int? CategoryId { get; set; }
+        public Guid? CategoryId { get; set; }
         public Category? Category { get; set; }
 
         public ICollection<Comment> Comments { get; set; }

@@ -1,0 +1,41 @@
+﻿
+@model EditBlogPostViewModel
+@{
+    ViewData["Title"] = "Blog Yazısını Düzenle";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container py-5">
+    <h2>Blog Yazısını Düzenle</h2>
+    <form asp-action="Edit" method="post" enctype="multipart/form-data">
+        <input type="hidden" asp-for="Id" />
+
+        <div class="mb-3">
+            <label asp-for="Title" class="form-label"></label>
+            <input asp-for="Title" class="form-control" />
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Content" class="form-label"></label>
+            <textarea asp-for="Content" class="form-control" rows="6"></textarea>
+            <span asp-validation-for="Content" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="ImageFile" class="form-label">Yeni Resim (isteğe bağlı)</label>
+            <input asp-for="ImageFile" type="file" class="form-control" />
+        </div>
+
+        @if (!string.IsNullOrEmpty(Model.ExistingImageUrl))
+        {
+            <div class="mb-3">
+                <label class="form-label">Mevcut Resim</label><br />
+                <img src="@Model.ExistingImageUrl" alt="Mevcut Resim" style="max-width: 300px;" />
+            </div>
+        }
+
+        <button type="submit" class="btn btn-success">Güncelle</button>
+        <a asp-action="Index" class="btn btn-secondary">İptal</a>
+    </form>
+</div>

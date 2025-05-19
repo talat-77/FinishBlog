@@ -1,0 +1,61 @@
+﻿@model FinishBlog.Models.LoginViewModel
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Giriş Yap</title>
+    <link rel="stylesheet" href="~/colorlib-regform-7/fonts/material-icon/css/material-design-iconic-font.min.css" />
+    <link rel="stylesheet" href="~/colorlib-regform-7/css/style.css" />
+</head>
+<body>
+    <div class="main">
+        <section class="sign-in">
+            <div class="container">
+                <div class="signin-content">
+                    <div class="signin-image">
+                        <figure><img src="~/colorlib-regform-7/images/signin-image.jpg" alt="giriş resmi" /></figure>
+                        <a href="@Url.Action("Register", "Account")" class="signup-image-link">Hesap Oluştur</a>
+                    </div>
+
+                    <div class="signin-form">
+                        <h2 class="form-title">Giriş Yap</h2>
+                        <form asp-controller="Account" asp-action="Login" method="post" class="register-form" id="login-form">
+                            <div class="form-group">
+                                <label for="Username"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                                <input asp-for="Username" id="Username" placeholder="Kullanıcı adı" class="form-control" />
+                                <span asp-validation-for="Username" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="Password"><i class="zmdi zmdi-lock"></i></label>
+                                <input asp-for="Password" id="Password" placeholder="Şifre" type="password" class="form-control" />
+                                <span asp-validation-for="Password" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <input type="checkbox" id="remember-me" name="remember-me" class="agree-term" />
+                                <label for="remember-me" class="label-agree-term"><span><span></span></span>Beni Hatırla</label>
+                            </div>
+                            <div class="form-group form-button">
+                                <input type="submit" id="signin" class="form-submit btn btn-primary" value="Giriş yap" />
+                            </div>
+                            <div class="form-group">
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script src="~/colorlib-regform-7/vendor/jquery/jquery.min.js"></script>
+    <script src="~/colorlib-regform-7/js/main.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js"></script>
+</body>
+</html>
+

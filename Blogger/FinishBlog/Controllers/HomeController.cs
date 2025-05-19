@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using Blogger.Buisiness.Abstract;
 using FinishBlog.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,16 +8,42 @@ namespace FinishBlog.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        private readonly IPostService _postService;
+        public HomeController(ILogger<HomeController> logger, IPostService postService)
         {
             _logger = logger;
+            _postService = postService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index(int page = 1)
         {
-            return View();
+            int pageSize = 7;
+
+            var allPosts = await _postService.GetAllPostsAsync();
+
+            if (page < 1) page = 1;
+
+            int totalPosts = allPosts.Count;
+            int totalPages = (int)Math.Ceiling(totalPosts / (double)pageSize);
+
+            if (page > totalPages) page = totalPages;
+
+            var postsToShow = allPosts
+                .OrderByDescending(p => p.CreatedTime)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
+
+            var model = new BlogIndexViewModel
+            {
+                Posts = postsToShow,
+                CurrentPage = page,
+                TotalPages = totalPages
+            };
+
+            return View(model);
         }
+
 
         public IActionResult Privacy()
         {
@@ -28,23 +55,7 @@ namespace FinishBlog.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-        public IActionResult PostDetails()
-        {
-            var model = new BlogPostViewModel
-            {
-                Id = 1,
-                Title = "Örnek Baþlýk",
-                PublishDate = DateTime.Now,
-                Content = "Burada blog içeriði yer alacak.",
-                Comments = new List<CommentViewModel>()
-        {
-            new CommentViewModel { Name = "Ali", Date = DateTime.Now, Text = "Harika yazý!" },
-            new CommentViewModel { Name = "Ayþe", Date = DateTime.Now, Text = "Teþekkürler." }
-        }
-            };
-
-            return View(model);
-        }
+       
         [HttpGet]
         public IActionResult CreatePost()
         {

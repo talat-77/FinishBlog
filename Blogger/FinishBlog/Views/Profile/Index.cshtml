@@ -1,0 +1,45 @@
+﻿@using Blog.Entity.BlogEntities
+@model List<Post>
+@{
+    ViewData["Title"] = "Profile";
+    Layout = "~/Views/Home/_Layout.cshtml";
+}
+<h2 class="mb-4">Benim Bloglarım</h2>
+
+@if (!Model.Any())
+{
+    <p>Henüz bir blog yazısı paylaşmadınız.</p>
+}
+else
+{
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+        @foreach (var post in Model)
+        {
+            <div class="col">
+                <div class="card h-100">
+                    @if (!string.IsNullOrEmpty(post.CoverImagePath))
+                    {
+                        <img src="@post.ImageUrl" class="card-img-top" alt="@post.Title" style="object-fit: cover; height: 200px;">
+                    }
+                    <div class="card-body">
+                        <h5 class="card-title">@post.Title</h5>
+                        <p class="card-text text-truncate" style="max-height: 60px; overflow: hidden;">@post.Content</p>
+                        <a href="@Url.Action("Details", "Post", new { id = post.Id })" class="btn btn-primary">Devamını Oku</a>
+                        <a class="btn btn-sm btn-warning me-2" href="@Url.Action("EditPost", "Post", new { id = post.Id })">Düzenle</a>
+                        <form action="@Url.Action("DeletePost", "Post")" method="post" class="d-inline" onsubmit="return confirm('Bu gönderiyi silmek istediğinize emin misiniz?');">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="id" value="@post.Id" />
+                            <button type="submit" class="btn btn-sm btn-danger me-2">Sil</button>
+                        </form>
+                    </div>
+                    <div class="card-footer text-muted">
+                        @post.CreatedTime.ToLocalTime().ToString("dd MMM yyyy")
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+
+
+
